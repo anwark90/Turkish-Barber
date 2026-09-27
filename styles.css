@@ -138,7 +138,7 @@ textarea.in{min-height:84px;resize:vertical}
 .status.warn{background:color-mix(in srgb,#D14848 20%,transparent)}
 .status{display:inline-block;padding:5px 12px;border-radius:999px;background:color-mix(in srgb,var(--sky) 30%,transparent);color:var(--ink);font-weight:600;font-size:.85rem;margin-bottom:14px}
 
-/* ---------- Birthday club ---------- */
+/* ---------- Club sign-up ---------- */
 .steps-list{margin:0;padding-left:20px;color:var(--muted);font-size:.95rem;display:grid;gap:8px}
 
 /* ---------- Shopping and branches ---------- */
@@ -187,12 +187,14 @@ textarea.in{min-height:84px;resize:vertical}
 /* One section is open at a time, so it never needs a divider above it */
 .shop-main > .sec{border-top:0;padding-top:0}
 .shop-main > .sec > .step:first-child{border-top:0;padding-top:0}
+/* On a phone the pages sit in a block of buttons instead of a column: all of
+   them visible at once, nothing to scroll sideways, nothing stuck to the top */
 @media (max-width:860px){
   .shop-layout{grid-template-columns:minmax(0,1fr);gap:0}
-  .sidenav{position:sticky;top:0;z-index:6;grid-auto-flow:column;grid-auto-columns:max-content;
-    gap:6px;overflow-x:auto;background:var(--surface);padding:10px 0 12px;
-    box-shadow:0 8px 12px -8px rgba(0,0,0,.18)}
-  .sidenav a{border:1.5px solid var(--line);padding:9px 14px}
+  .sidenav{position:static;display:flex;flex-wrap:wrap;gap:8px;
+    margin:0 0 20px;padding:0 0 18px;border-bottom:1px solid var(--line)}
+  .sidenav a{flex:1 1 auto;text-align:center;border:1.5px solid var(--line);
+    border-radius:12px;padding:11px 14px}
   .sidenav a.active{border-color:var(--cobalt)}
 }
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}

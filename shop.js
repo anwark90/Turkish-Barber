@@ -149,15 +149,47 @@ function preview(){
 }
 preview();
 
-/* ---------- Sending, one chat at a time ---------- */
-let queue=[], at=0, sent=0;
+/* ---------- Sending, one customer at a time ----------
+   WhatsApp first, with a plain text as the way out. iPhones want &body=,
+   the rest want ?body=, so the separator depends on the phone.        */
+const onApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+const smsLink = (num,text) =>
+  "sms:+"+digits(num)+(onApple?"&":"?")+"body="+encodeURIComponent(text);
+
+// A computer often has nothing that answers an sms: link, so offer a way out
+async function copyText(t,btn){
+  let done=false;
+  try{
+    if (navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(t); done=true;
+    }
+  }catch(e){ /* fall through to the old way */ }
+  if (!done){
+    const ta=document.createElement("textarea");
+    ta.value=t; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.append(ta); ta.select();
+    try{ done=document.execCommand("copy"); }catch(e){}
+    ta.remove();
+  }
+  if (btn){
+    const was=btn.textContent;
+    btn.textContent = done ? "copied" : "couldn't copy";
+    setTimeout(()=>{ btn.textContent=was; },1400);
+  }
+  return done;
+}
+$("qCopy").addEventListener("click",()=>copyText(queue[at]?messageFor(queue[at]):"", $("qCopy")));
+$("qCopyNum").addEventListener("click",()=>copyText(queue[at]?"+"+queue[at].p:"", $("qCopyNum")));
+
+let queue=[], at=0, sent=0, queueTotal=0;
 $("startBtn").addEventListener("click",()=>{
   const err=$("sendErr"); err.textContent="";
   if (!$("msgText").value.trim()) return err.textContent="Write the message first.";
-  queue=customers.filter(c=>picked.has(c.p));
-  if (!queue.length) return err.textContent="Tick at least one customer.";
-  at=0; sent=0;
+  const list=customers.filter(c=>picked.has(c.p));
+  if (!list.length) return err.textContent="Tick at least one customer.";
+  queue=list; queueTotal=list.length; at=0; sent=0;
   $("startBtn").disabled=true; $("queueBox").hidden=false;
+  $("qOpen").hidden=false; $("qStop").textContent="Stop";
   showCurrent();
   $("queueBox").scrollIntoView({block:"center"});
 });
@@ -171,29 +203,41 @@ function showCurrent(){
   $("qOpen").href = waLink(c.p, messageFor(c));
   $("qOpen").textContent = "Open WhatsApp";
   $("qSkip").hidden=false;
+  $("qSms").href = smsLink(c.p, messageFor(c));
+  $("qSms").hidden=false;
+  $("qAlt").hidden=false;
 }
-$("qOpen").addEventListener("click",()=>{
-  // The link opens WhatsApp in a new tab; move on so the next one is ready
+// Either link sends this one, so move on and get the next person ready
+function nextCustomer(){
   if (at<queue.length){ sent++; at++; setTimeout(showCurrent,300); }
-});
+}
+$("qOpen").addEventListener("click",nextCustomer);
+$("qSms").addEventListener("click",nextCustomer);
 $("qSkip").addEventListener("click",()=>{ at++; showCurrent(); });
 $("qStop").addEventListener("click",stopQueue);
 function finishQueue(){
   $("qBar").style.width="100%";
   $("qCount").textContent="Done";
-  $("qWho").textContent = `Sent to ${sent} of ${queue.length}`;
+  $("qWho").textContent = `Sent to ${sent} of ${queueTotal}`;
   $("qPreview").textContent="";
+  // Nothing left to open, so the only thing on offer is closing this
   $("qOpen").removeAttribute("href");
-  $("qOpen").textContent="All done";
+  $("qOpen").hidden=true;
   $("qSkip").hidden=true;
+  $("qAlt").hidden=true;
+  $("qStop").textContent="Close";
   $("startBtn").disabled=false;
 }
 function stopQueue(){
-  queue=[]; at=0; sent=0;
-  $("queueBox").hidden=true; $("startBtn").disabled=false;
+  queue=[]; at=0; sent=0; queueTotal=0;
+  $("queueBox").hidden=true;
+  $("qOpen").hidden=false; $("qStop").textContent="Stop";
+  $("startBtn").disabled=false;
 }
 
-/* ---------- Birthday club sign-up, taken at the counter ---------- */
+/* ---------- Club sign-up, taken at the counter ----------
+   Joining is about hearing from the shop at all; the birthday is what
+   lets a treat go out on the day, so it's asked for here.            */
 const monthDays = m => [31,29,31,30,31,30,31,31,30,31,30,31][m-1];
 $("joinDays").textContent = CONFIG.birthdayDaysAhead;
 $("jMonth").innerHTML = '<option value="">Month</option>' +
@@ -224,8 +268,8 @@ $("joinBtn").addEventListener("click",async()=>{
   const d=Number($("jDay").value), m=Number($("jMonth").value);
   if (!name) return err.textContent="Enter their name.";
   if (phone.length<10||phone.length>15) return err.textContent="Enter a valid phone number.";
-  if (!m) return err.textContent="Choose the month of their birthday.";
-  if (!d) return err.textContent="Choose the day of their birthday.";
+  if (!m) return err.textContent="Ask for the month of their birthday.";
+  if (!d) return err.textContent="Ask for the day of their birthday.";
   if (d>monthDays(m)) return err.textContent=`${monthNames[m-1]} doesn't have ${d} days.`;
   err.textContent=""; btn.disabled=true; btn.textContent="Adding…";
   try{
@@ -404,7 +448,7 @@ function showBooking(on){
   $("bookingSw").checked = !!on;
   $("bookingHint").textContent = on
     ? "On — customers can book appointments on the website."
-    : "Off — customers only see the birthday club.";
+    : "Off — the website doesn't take bookings.";
 }
 function setStatus(text,kind){
   const st=$("setStatus");

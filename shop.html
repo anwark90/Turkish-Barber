@@ -50,8 +50,8 @@
       </nav>
       <div class="shop-main">
       <div class="step sec" id="secClub">
-        <div class="step-h"><h3>Add someone to the birthday club</h3></div>
-        <p class="note">Take their details at the counter. They'll get a message <span id="joinDays"></span> days before their birthday.</p>
+        <div class="step-h"><h3>Add someone to the club</h3></div>
+        <p class="note">Take their details at the counter. Club members hear about your offers and discounts, and get a treat <span id="joinDays"></span> days before their birthday — so ask them for the date.</p>
         <div class="fields" style="margin-top:14px">
           <label class="f">Name<input class="in" id="jName" autocomplete="off" placeholder="Customer's name"></label>
           <label class="f">Phone number<input class="in" id="jPhone" type="tel" inputmode="tel" autocomplete="off" placeholder="07700 900123"></label>
@@ -95,7 +95,7 @@
 
       <div class="step" id="secSend">
         <div class="step-h"><span class="step-n">3</span><h3>Send on WhatsApp</h3></div>
-        <p class="note">WhatsApp opens one chat at a time, so you send them one after another. Tap the button, press send in WhatsApp, come back — the next person is ready.</p>
+        <p class="note">WhatsApp opens one chat at a time, so you send them one after another: tap the button, press send in WhatsApp, come back — the next person is ready. On a computer this works as long as you're signed into WhatsApp Web.</p>
         <div class="actions" style="border:0">
           <button class="btn" id="startBtn">Start sending</button>
         </div>
@@ -109,6 +109,10 @@
             <button class="btn ghost" id="qSkip">Skip</button>
             <button class="btn ghost" id="qStop">Stop</button>
           </div>
+          <p class="note" id="qAlt" style="margin-top:14px">If WhatsApp doesn't open:
+            <button class="linkbtn" id="qCopy">copy the message</button> ·
+            <button class="linkbtn" id="qCopyNum">copy the number</button> ·
+            <a class="linkbtn" id="qSms">send as a text instead</a></p>
         </div>
         <p class="err" id="sendErr" role="alert"></p>
       </div>

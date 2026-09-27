@@ -17,13 +17,13 @@ const CONFIG = {
   siteUrl: "",             // your website address once hosted, e.g. "https://turkishbarbers.co.uk/"
   // Google Apps Script web app URL (see README). When set, approved
   // appointments are saved and their times disappear from the booking page.
-  // The same URL stores birthday club sign-ups.
+  // The same URL stores the club members.
   bookingsApi: "https://script.google.com/macros/s/AKfycbw-J8gaoKlQq2bx2x99ntkEwQDuiL7fQsF5i4aUPtqv9RNJ0sw7Y5jxm3WfOYny1Naj/exec",
   // The shop passcode is not kept here — it lives in the Google Apps Script,
   // so it can be changed from shop.html > Settings without touching any files.
   slotMinutes: 15,
   daysAhead: 14,
-  // Birthday club: how many days before the birthday the customer is messaged,
+  // Club: how many days before a member's birthday they are messaged,
   // and what they get. Must match BIRTHDAY_DAYS_AHEAD in the Google Apps Script.
   birthdayDaysAhead: 3,
   birthdayOffer: "50% off any service",
