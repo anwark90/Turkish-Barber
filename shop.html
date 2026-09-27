@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turkish Barbers — Shop page</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="brand">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#1C45B5"/><circle cx="20" cy="20" r="13" fill="#fff"/><circle cx="20" cy="20" r="8.5" fill="#7CC3F0"/><circle cx="20" cy="20" r="4.5" fill="#0B1022"/></svg>
+        <span>Turkish Barbers</span>
+      </div>
+      <h1><span>Shop</span><span>page</span></h1>
+      <p class="sub">Your customer list and messages. Staff only — don't share this link.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card book" aria-labelledby="shopTitle">
+    <h2 id="shopTitle">Shop page</h2>
+
+    <div id="lockBox">
+      <p class="lead">Enter the shop passcode to open the shop page.</p>
+      <label class="f">Shop passcode<input class="in" id="passIn" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false"></label>
+      <label class="remember"><input type="checkbox" id="rememberIn" checked> Remember this device</label>
+      <div class="actions" style="border:0">
+        <button class="btn" id="unlockBtn">Unlock</button>
+      </div>
+      <p class="err" id="lockErr" role="alert"></p>
+    </div>
+
+    <div id="shopArea" hidden>
+     <div class="shop-layout">
+      <nav class="sidenav" id="sideNav" aria-label="Shop page sections">
+        <a href="#secClub">Add to club</a>
+        <a href="#secMessaging">Message customers</a>
+        <a href="#secApprove">Bookings</a>
+        <a href="#secItems">Items</a>
+        <a href="#secSettings">Settings</a>
+      </nav>
+      <div class="shop-main">
+      <div class="step sec" id="secClub">
+        <div class="step-h"><h3>Add someone to the birthday club</h3></div>
+        <p class="note">Take their details at the counter. They'll get a message <span id="joinDays"></span> days before their birthday.</p>
+        <div class="fields" style="margin-top:14px">
+          <label class="f">Name<input class="in" id="jName" autocomplete="off" placeholder="Customer's name"></label>
+          <label class="f">Phone number<input class="in" id="jPhone" type="tel" inputmode="tel" autocomplete="off" placeholder="07700 900123"></label>
+          <label class="f">Birthday day<select class="in" id="jDay"></select></label>
+          <label class="f">Birthday month<select class="in" id="jMonth"></select></label>
+        </div>
+        <div class="actions" style="border:0">
+          <button class="btn" id="joinBtn">Add to the club</button>
+          <span class="summary" id="joinSummary"></span>
+        </div>
+        <p class="err" id="joinErr" role="alert"></p>
+      </div>
+
+      <div class="sec" id="secMessaging">
+      <div class="step" id="secPick">
+        <div class="step-h"><span class="step-n">1</span><h3>Pick who to message</h3></div>
+        <div class="toolbar">
+          <button class="btn ghost" id="allBtn">Select all</button>
+          <button class="btn ghost" id="noneBtn">Clear</button>
+          <button class="btn ghost" id="bdayBtn">Birthdays soon</button>
+          <button class="btn ghost" id="refreshBtn">Refresh list</button>
+        </div>
+        <label class="f" style="margin-bottom:12px">
+          <input class="in" id="search" placeholder="Search a name or number" autocomplete="off"></label>
+        <div class="custs" id="custList"></div>
+        <p class="summary" id="countNote" style="display:block;margin-top:12px"></p>
+        <p class="err" id="listErr" role="alert"></p>
+      </div>
+
+      <div class="step" id="secMessage">
+        <div class="step-h"><span class="step-n">2</span><h3>Write the message</h3></div>
+        <div class="toolbar">
+          <button class="btn ghost" id="tplDiscount">Discount offer</button>
+          <button class="btn ghost" id="tplBirthday">Birthday treat</button>
+          <button class="btn ghost" id="tplQuiet">Quiet day, walk in</button>
+        </div>
+        <label class="f">Message <span class="opt">Write {name} where their name should go</span>
+          <textarea class="in" id="msgText" style="min-height:130px"></textarea></label>
+        <p class="preview" id="msgPreview"></p>
+      </div>
+
+      <div class="step" id="secSend">
+        <div class="step-h"><span class="step-n">3</span><h3>Send on WhatsApp</h3></div>
+        <p class="note">WhatsApp opens one chat at a time, so you send them one after another. Tap the button, press send in WhatsApp, come back — the next person is ready.</p>
+        <div class="actions" style="border:0">
+          <button class="btn" id="startBtn">Start sending</button>
+        </div>
+        <div class="queue" id="queueBox" hidden>
+          <div class="bar"><i id="qBar" style="width:0%"></i></div>
+          <span class="status" id="qCount"></span>
+          <p class="who" id="qWho"></p>
+          <p class="preview" id="qPreview"></p>
+          <div class="actions" style="border:0;padding-top:16px">
+            <a class="btn wa" id="qOpen" target="_blank" rel="noopener">Open WhatsApp</a>
+            <button class="btn ghost" id="qSkip">Skip</button>
+            <button class="btn ghost" id="qStop">Stop</button>
+          </div>
+        </div>
+        <p class="err" id="sendErr" role="alert"></p>
+      </div>
+      </div>
+
+      <div class="step sec" id="secApprove">
+        <div class="step-h"><h3>Approve a booking</h3></div>
+        <div id="pasteBox">
+          <p class="note">When a customer sends a booking request, their WhatsApp message has a link at the bottom. Tap it, or paste it here.</p>
+          <label class="f" style="margin-top:14px">Booking link<textarea class="in" id="pasteIn" placeholder="Paste the whole link here"></textarea></label>
+          <div class="actions" style="border:0">
+            <button class="btn" id="loadBtn">Open booking</button>
+          </div>
+          <p class="err" id="ownerErr" role="alert"></p>
+        </div>
+        <div id="ownerBooking" style="display:none">
+          <p class="err" id="approveErr" role="alert" style="margin:0 0 12px;min-height:0"></p>
+          <span class="status" id="ownerStatus">Waiting for your answer</span>
+          <div class="ticket" id="ownerTicket"></div>
+          <label class="f" style="margin-bottom:16px">Message to customer<textarea class="in" id="replyText" style="min-height:120px"></textarea></label>
+          <div class="actions" style="border:0;padding-top:0">
+            <button class="btn wa" id="approveBtn" hidden>Approve booking</button>
+            <a class="btn wa" id="approveWa" target="_blank" rel="noopener">Approve and message customer</a>
+            <button class="btn ghost" id="declineBtn">Decline instead</button>
+          </div>
+          <p style="margin:20px 0 0"><button class="linkbtn" id="anotherBk">Open a different booking</button></p>
+        </div>
+      </div>
+
+      <div class="step sec" id="secItems">
+        <div class="step-h"><h3>Things you sell</h3></div>
+        <p class="note">These show on the Shopping page. Customers pick what they want and send it over — you reply and they collect from a branch.</p>
+
+        <div class="fields" style="margin-top:16px">
+          <label class="f">Item name<input class="in" id="itName" autocomplete="off" placeholder="e.g. Beard oil"></label>
+          <label class="f">Price<input class="in" id="itPrice" type="number" min="0" step="0.5" inputmode="decimal" placeholder="12"></label>
+          <label class="f full">Description <span class="opt">Optional</span>
+            <input class="in" id="itDesc" autocomplete="off" placeholder="e.g. 50ml, cedarwood and argan"></label>
+          <label class="f full">Photo <span class="opt">Optional — taken from your phone is fine</span>
+            <input class="in" id="itPic" type="file" accept="image/*"></label>
+        </div>
+        <img id="itPreview" class="pic-preview" alt="" hidden>
+        <div class="actions" style="border:0">
+          <button class="btn" id="itAdd">Add item</button>
+          <button class="btn ghost" id="itRefresh">Refresh items</button>
+        </div>
+        <p class="err" id="itErr" role="alert"></p>
+        <div class="stock" id="stockList"></div>
+      </div>
+
+      <div class="step sec" id="secSettings">
+        <div class="step-h"><h3>Settings</h3></div>
+        <label class="toggle">
+          <input type="checkbox" id="bookingSw">
+          <span><b>Online booking</b><small id="bookingHint">Off — the website doesn't take bookings.</small></span>
+        </label>
+        <p class="note" style="margin-top:12px">Switch this on when you're ready to take bookings from the website. It changes the site for everyone straight away.</p>
+        <span class="status" id="setStatus" hidden></span>
+        <p class="err" id="setErr" role="alert"></p>
+
+        <h4 class="sub-h">Change the passcode</h4>
+        <p class="note">We'll email a code to the shop's email address first, so a passcode can't be changed by someone who just borrowed an unlocked phone.</p>
+        <div class="fields" style="margin-top:14px">
+          <label class="f">New passcode<input class="in" id="newPass" type="password" autocomplete="new-password" placeholder="At least 6 characters"></label>
+          <label class="f">Type it again<input class="in" id="newPass2" type="password" autocomplete="new-password"></label>
+        </div>
+        <div class="actions" style="border:0">
+          <button class="btn ghost" id="passCodeBtn">Email me a code</button>
+        </div>
+        <div id="passConfirm" hidden>
+          <label class="f">Code from the email<input class="in" id="passCode" inputmode="numeric" autocomplete="one-time-code" placeholder="6 digits"></label>
+          <div class="actions" style="border:0">
+            <button class="btn" id="passSaveBtn">Change the passcode</button>
+            <button class="btn ghost" id="passCancelBtn">Cancel</button>
+          </div>
+        </div>
+        <span class="status" id="passStatus" hidden></span>
+        <p class="err" id="passErr" role="alert"></p>
+      </div>
+
+      <p style="margin:24px 0 0"><button class="linkbtn" id="lockBtn">Lock this device</button></p>
+      </div>
+     </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span id="foot"></span>
+  </footer>
+</div>
+
+<script src="config.js"></script>
+<script src="booking-lib.js"></script>
+<script src="shop.js"></script>
+</body>
+</html>

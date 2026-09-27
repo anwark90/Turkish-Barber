@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turkish Barbers Metrocentre — Shop and branches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="nav-brand" href="#top">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#1C45B5"/><circle cx="20" cy="20" r="13" fill="#fff"/><circle cx="20" cy="20" r="8.5" fill="#7CC3F0"/><circle cx="20" cy="20" r="4.5" fill="#0B1022"/></svg>
+      <span>Turkish Barbers</span>
+    </a>
+    <div class="nav-links">
+      <a href="#shopping">Shopping</a>
+      <a href="#branches">Branches</a>
+      <a id="navBook" href="booking.html" hidden>Book</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <h1><span>Turkish</span><span>Barbers</span></h1>
+      <p class="sub">Fades, beard work and hot towel shaves, the Turkish way. Three branches inside the Metrocentre, Gateshead.</p>
+      <div class="hero-ctas">
+        <a class="btn light" href="#shopping">Shop our products</a>
+        <a class="btn outline" href="#branches">Find a branch</a>
+      </div>
+      <div class="open-now"><span class="dot" id="openDot"></span><span id="openText"></span></div>
+    </div>
+    <svg class="eye" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="r1" cx="100" cy="100" r="96" fill="#1C45B5"/>
+      <circle class="r2" cx="100" cy="100" r="66" fill="#FFFFFF"/>
+      <circle class="r3" cx="100" cy="100" r="44" fill="#7CC3F0"/>
+      <g class="pupil" id="pupil"><circle class="r4" cx="100" cy="100" r="22" fill="#0B1022"/></g>
+    </svg>
+  </div>
+</header>
+
+<main class="wrap grid">
+  <section class="card book" id="shopping" aria-labelledby="shoppingTitle">
+    <div id="orderPanel" class="panel show">
+      <h2 id="shoppingTitle">Shopping</h2>
+      <p class="lead">Choose what you want and send it over. Collect from any of our three branches, and pay when you pick it up.</p>
+
+      <div class="step">
+        <div class="step-h"><span class="step-n">1</span><h3>Choose your items</h3></div>
+        <div class="items" id="itemList"><p class="hint">Loading what's in stock…</p></div>
+      </div>
+
+      <div class="step">
+        <div class="step-h"><span class="step-n">2</span><h3>Your details</h3></div>
+        <div class="fields">
+          <label class="f">Name<input class="in" id="oName" autocomplete="name" placeholder="Your name"></label>
+          <label class="f">Phone number<input class="in" id="oPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07700 900123"></label>
+          <label class="f full">Anything to add? <span class="opt">Optional</span>
+            <textarea class="in" id="oNote" placeholder="e.g. I'll collect on Saturday"></textarea></label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn wa" id="orderBtn" target="_blank" rel="noopener">Send my order</a>
+        <span class="summary" id="orderSummary"></span>
+      </div>
+      <p class="err" id="orderErr" role="alert"></p>
+    </div>
+
+    <div id="sentPanel" class="panel">
+      <h2>Order sent 🛍️</h2>
+      <div class="ticket" id="orderTicket"></div>
+      <p class="note" id="collectNote"></p>
+      <div class="actions" style="border:0;padding-top:0">
+        <a class="btn ghost" href="#branches">See our branches</a>
+        <button class="btn ghost" id="againBtn">Order something else</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="card">
+      <h3>Opening hours</h3>
+      <table class="hours" id="hoursTable"></table>
+    </div>
+    <div class="card">
+      <h3>Find us</h3>
+      <p class="addr" id="addr"></p>
+      <a class="btn ghost" id="dirSide" target="_blank" rel="noopener">Open in Google Maps</a>
+    </div>
+  </aside>
+</main>
+
+<div class="wrap">
+  <section class="card" id="branches" aria-labelledby="branchTitle">
+    <h2 id="branchTitle">Branches</h2>
+    <p class="lead">Three shops, all inside the Metrocentre. Collect your order from whichever suits you.</p>
+    <div class="branches" id="branchList"></div>
+  </section>
+</div>
+
+<div class="wrap">
+  <footer>
+    <span id="foot"></span>
+  </footer>
+</div>
+
+<script src="config.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
